@@ -65,7 +65,7 @@ return {
 				tfnetId = 29264,
 			},
 		},
-		-- url = "",
+		url = "https://github.com/Vacuum-Tube/NEP-Addon",
 		modid = "vt_natural_environment_pro_addon_1",
 		dependencies = {"unixroot_natural_environment_pro_tpf2_2"},
 		requiredModsAnyLoadOrder = false,
@@ -137,6 +137,9 @@ return {
 				end
 				if data.catenaryMultiInnerPoleModel == "railroad/nep_power_pole_1b_grau.mdl" then
 					data.catenaryMultiInnerPoleModel = "railroad/nep_power_pole_1b.mdl"
+				end
+				if data.catenaryPoleModel == "railroad/nep_power_pole_2_gedreht_grau.mdl" then
+					data.catenaryPoleModel = "railroad/nep_power_pole_2_gedreht.mdl"
 				end
 				return data
 			end)
@@ -428,7 +431,7 @@ return {
 			end
 		end
 
-		local nepdebug = true
+		local nepdebug = false
 
 		-- Wende die Einstellung fuer tracktype filter an:
 		local filterlists = trackTypeSetting2filterlists[trackTypeSetting + 1]

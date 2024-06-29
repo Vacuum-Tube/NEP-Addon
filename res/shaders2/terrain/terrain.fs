@@ -90,5 +90,5 @@ void main() {
 	vec2 ambientGloss;
 	vec3 albedo = filterAndBlendMaterial(dposdx, dposdy, normal, ambientGloss);
 	
-	fragmentOutput(vpos, ambientGloss.x, normal, albedo, 0.0, ambientGloss.y, 1.0);  // Relozu Wassertexturen  Fix
+	fragmentOutput(vpos, ambientGloss.x, normal, albedo, 0.0, ambientGloss.y, 1.0);  // Relozu Wassertexturen  Fix, reverted to Vanilla
 }

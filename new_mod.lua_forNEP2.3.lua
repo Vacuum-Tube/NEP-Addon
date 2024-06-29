@@ -26,6 +26,7 @@ return {
                 text = 'Script',
             },
         },
+		url = "https://www.transportfever.net/filebase/entry/5942-natural-environment-professional-2/",
         -- params = {
             -- {
                 -- key = "renderDistance",
