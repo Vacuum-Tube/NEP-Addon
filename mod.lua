@@ -334,17 +334,20 @@ return {
 			"standard_gedreht_30.lua",
 			"standard_gedreht_40.lua",
 			"standard_gedreht_60.lua",
+			"standard_gedreht_80.lua",
 			"low_speed_gedreht_10.lua",
 			"low_speed_gedreht_20.lua",
 			"low_speed_gedreht_30.lua",
 			"low_speed_gedreht_40.lua",
 			"low_speed_gedreht_60.lua",
+			"low_speed_gedreht_80.lua",
 			"low_speed_gedreht_120.lua",
 			"high_speed_gedreht_10.lua",
 			"high_speed_gedreht_20.lua",
 			"high_speed_gedreht_30.lua",
 			"high_speed_gedreht_40.lua",
 			"high_speed_gedreht_60.lua",
+			"high_speed_gedreht_80.lua",
 			"high_speed_gedreht_120.lua",
 			"high_speed_gedreht_140.lua",
 			"high_speed_lzb_gedreht_10.lua",
@@ -352,6 +355,7 @@ return {
 			"high_speed_lzb_gedreht_30.lua",
 			"high_speed_lzb_gedreht_40.lua",
 			"high_speed_lzb_gedreht_60.lua",
+			"high_speed_lzb_gedreht_80.lua",
 			"high_speed_lzb_gedreht_120.lua",
 			"high_speed_lzb_gedreht_140.lua",
 			"high_speed_lzb_gedreht_160.lua",
@@ -373,10 +377,10 @@ return {
 		-- Eigene Module und Geschwindigkeiten
 		local moduleBaseNames = {"track", "low_speed_track", "high_speed_track", "high_speed_track_lzb" }
 		local moduleSpeeds = {
-			["track"] = { 10,20,30,40,60 },
-			["low_speed_track"] = { 10,20,30,40,60,120 },
-			["high_speed_track"] = { 10,20,30,40,60,120,140 },
-			["high_speed_track_lzb"] = { 10,20,30,40,60,120,140,160 },
+			["track"] = { 10,20,30,40,60,80 },
+			["low_speed_track"] = { 10,20,30,40,60,80,120 },
+			["high_speed_track"] = { 10,20,30,40,60,80,120,140 },
+			["high_speed_track_lzb"] = { 10,20,30,40,60,80,120,140,160, 300 },
 		}
 
 		local modulesRusty = buildPlattformModuleList(moduleBaseNames)
@@ -390,8 +394,6 @@ return {
 		local filterUGModules = {
 			disableRusty, disableRusty_speedlimmits, disableNew, disableNew_speedlimmits
 		}
-
-
 
 		-- trackTypeSetting zu Filterlisten
 		local trackTypeSetting2filterlists = {
@@ -413,7 +415,6 @@ return {
 			{ }
 		}
 
-
 		local trackTypeSetting = 0    --default aus params tracktypes defaultIndex von oben
 		-- Gibt es eine valide Nutzer Einstellung zurück
 		if modParams[getCurrentModId()] ~= nil then
@@ -433,34 +434,32 @@ return {
 		local filterlists = trackTypeSetting2filterlists[trackTypeSetting + 1]
 		for key, filterlist in ipairs(filterlists) do
 			for _, trackFileName in ipairs(filterlist) do
-				local trackIndex = api.res.trackTypeRep.find(trackFileName)
-				if (nepdebug) then 
+				if nepdebug then 
 					print("NEP Filtering:  "..trackFileName)
 				end
-				-- if (trackIndex > -1) then
-					api.res.trackTypeRep.setVisible(trackIndex, false)
-				-- end
+				local trackIndex = api.res.trackTypeRep.find(trackFileName)
+				assert(trackIndex>=0, "Could not find track: "..trackFileName)
+				api.res.trackTypeRep.setVisible(trackIndex, false)
 			end
 		end
 
 		-- Schalte alle UG Gleis Module ab:
 		for key, filterlist in ipairs(filterUGModules) do
 			for _, trackFileName in ipairs(filterlist) do
-				if trackFileName ~= "standard.lua" and trackFileName ~= "high_speed.lua" then  
+				if trackFileName ~= "standard.lua" and trackFileName ~= "high_speed.lua" then
 					local moduleName = "trainstation_"..trackFileName
-					local moduleIndex = api.res.moduleRep.find(moduleName)
-					-- if (moduleIndex > -1) then
-					if (nepdebug) then 
+					if nepdebug then 
 						print("NEP Filtering UG Module:  "..moduleName)
 					end
+					local moduleIndex = api.res.moduleRep.find(moduleName)
+					assert(moduleIndex>=0, "Could not find module: "..moduleName)
 					api.res.moduleRep.setVisible(moduleIndex, false)
+					if nepdebug then 
+						print("NEP Filtering UG Module:  "..moduleName.."catenary")
+					end
 					local moduleIndexCat = api.res.moduleRep.find(moduleName.."catenary")
-					-- if (moduleIndexCat > -1) then
-						if (nepdebug) then 
-							print("NEP Filtering UG Module:  "..moduleName.."catenary")
-						end
-						api.res.moduleRep.setVisible(moduleIndexCat, false)
-					-- end
+					assert(moduleIndexCat>=0, "Could not find module: "..moduleName.."catenary")
+					api.res.moduleRep.setVisible(moduleIndexCat, false)
 				end
 			end
 		end
@@ -469,13 +468,12 @@ return {
 		for key, filterlist in ipairs(filterlistsModule) do
 			local path = "station/rail/modular_station/"
 			for _, moduleName in ipairs(filterlist) do
+				if nepdebug then 
+					print("NEP Filtering Module:  "..moduleName)
+				end
 				local moduleIndex = api.res.moduleRep.find(path..moduleName)
-				-- if (moduleIndex > -1) then
-					if (nepdebug) then 
-						print("NEP Filtering Module:  "..moduleName)
-					end
-					api.res.moduleRep.setVisible(moduleIndex, false)
-				-- end
+				assert(moduleIndex>=0, "Could not find module: "..path..moduleName)
+				api.res.moduleRep.setVisible(moduleIndex, false)
 			end
 		end
 		

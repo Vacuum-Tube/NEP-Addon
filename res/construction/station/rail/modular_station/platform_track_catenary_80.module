@@ -1,0 +1,47 @@
+local transf = require "transf"
+local vec3 = require "vec3"
+local modulesutil = require "modulesutil"
+local trainstationutil = require "modules/trainstationutil"
+
+function data()
+
+return { 
+	availability = {
+		yearFrom = 1920,
+		yearTo = 0,
+	},
+	cost = {
+		price = 25000,
+	},
+	description = {
+		name = _("Standard tracks with catenary 80"),
+		description = _("Standard tracks with catenary and limited speed capabilities. 80"),
+		icon = "ui/tracks/standard_gedreht_80.tga"
+	},
+	category = {
+		categories = { "tracks", },
+	},
+	--buildMode = "MULTI",
+	type = "track",
+	order = {
+		value = 209,
+	},
+	metadata = {
+		track = true,
+	},
+	
+	updateFn = function(result, transform, tag, slotId, addModuleFn, params)
+		local edgeListNum = trainstationutil.findOrMakeNewEdgeListNum(result, "standard_gedreht_80.lua", true)
+		trainstationutil.makeTrack(result, transform, tag, slotId, addModuleFn, params, edgeListNum)
+	end,
+	
+	getModelsFn = function()
+		
+		local result = {
+		}
+		
+		return result
+	end
+}
+
+end

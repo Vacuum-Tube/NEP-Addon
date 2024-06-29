@@ -1,0 +1,47 @@
+local transf = require "transf"
+local vec3 = require "vec3"
+local modulesutil = require "modulesutil"
+local trainstationutil = require "modules/trainstationutil"
+
+function data()
+
+return { 
+	availability = {
+		yearFrom = 1925,
+		yearTo = 0,
+	},
+	cost = {
+		price = 30000,
+	},
+	category = {
+		categories = { "tracks", },
+	},
+	description = {
+		name = _("High-speed tracks lzb 300"),
+		description = _("Specialized tracks for higher speeds. lzb 300"),
+		icon = "ui/tracks/alternativ/high_speed_lzb.tga"
+	},
+	-- buildMode = "MULTI",
+	type = "track",
+	order = {
+		value = 282,
+	},
+	metadata = {
+		track = true,
+	},
+	
+	updateFn = function(result, transform, tag, slotId, addModuleFn, params)
+		local edgeListNum = trainstationutil.findOrMakeNewEdgeListNum(result, "alternativ/high_speed_lzb.lua", false)
+		trainstationutil.makeTrack(result, transform, tag, slotId, addModuleFn, params, edgeListNum)
+	end,
+	
+	getModelsFn = function()
+		
+		local result = {
+		}
+		
+		return result
+	end
+}
+
+end
